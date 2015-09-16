@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="http://www.cordovaBuild.com/Content/images/cordovaBuild-logo-150x58.png" />
+    <meta property="og:title" content="cordovaBuild" />
+    <title>cordovaBuild - Alternative Parking Solution</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/templatecss")
+    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/bundles/jquery")*@
+    <style>
+        .headerMenu:hover{
+            color:#723147 !important;
+        }
+        .headerMenu{
+            color:white !important;
+            
+            font-size:x-large;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page" class="page">
+
+        <!-- HEADER 3 -->
+        <header id="header-3">
+<!--
+            <nav>
+                <div class="container">
+                    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
+                        <nav class="pull">
+                            <ul class="top-nav">
+                                <li><a href="#">Home <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                                <li><a href="#">How It Works <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                                <li><a href="#">Team <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                                <li><a href="#">Contact <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </nav>
+//-->
+            <section class="hero">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="brand">
+                                <a href="/"><img src="~/Content/images/cordovaBuild-logo-132x58.png" /></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-lg-offset-5 pull-right">
+                            <div class="navicon ">
+                                
+                                @*<a href="@Url.Action("Howdoesitwork","Home")" class="headerMenu">How it works?</a>
+                                
+                                &nbsp;*@
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a href="@Url.Action("Index","Account")" class="btn btn-primary">My Dashboard</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Login","Account")" class="btn btn-primary">Login</a>
+                                }
+                                <!--<a id="nav-toggle" class="nav-slide-btn" href="#"><span></span></a>-->
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="col-md-8 col-md-offset-2 text-center">
+                        <div class="editContent">
+                            <h1>ON DEMAND PARKING</h1>
+                        </div>
+                        <div class="editContent">
+                            <p class="lead"><strong>cordovaBuild</strong> lets you save time & money to find a low-cost parking spot whenever and for however long you need it.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-md-offset-3 text-center">
+                        <div class="col-md-6">
+                            <a href="@Url.Action("Index","PostSpace")" class="btn btn-info btn-block">Post a space</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="@Url.Action("Index","SearchSpace")" class=" btn btn-danger btn-block">Find a space</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </header>
+        <a href="#howdoesitwork"></a>
+        <!--// END HEADER 3 --><!-- Start Content Block 1-2 -->
+
+         @RenderBody() 
+
+
+
+        <!--// END Footer 1-2 --><!-- Start Footer 1-1 -->
+        <section class="content-block-nopad bg-deepocean">
+            <div class="container footer-1-1">
+                <div class="row">
+
+                    <div class="col-sm-5">
+                        <img src="~/Content/images/cordovaBuild-logo-132x58.png" />
+                        <div class="editContent">
+                            <h3>BECOME A <strong>cordovaBuild</strong> PROVIDER...</h3>
+                        </div>
+                        <div class="editContent">
+                            <p class="lead">and let you carpark space work for you. <a href="/account/register">Register</a> now and be one of the early adopters to earn money just by sharing your carpark spot when not in use.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-sm-offset-1">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="editContent">
+                                    <h4>Social Media</h4>
+                                </div>
+                                <div class="editContent">
+                                    <ul>
+                                        <li><a href="http://facebook.com/cordovaBuildapp">facebook</a></li>
+                                        <li><a href="http://twitter.com/cordovaBuild">twitter</a></li>
+                                        <li><a href="https://plus.google.com/u/0/105122408924078645534">Google+</a></li>
+                                    </ul>
+                                </div>
+<!--                                 <div class="editContent">
+                                    <h4></h4>
+                                </div>
+                                <div class="editContent">
+ -->                                    <ul>
+                                        <li><a href="@Url.Action("Contact", "Home")">Get in touch today!</a></li>
+                                        <li>Level 1, 1 Anzac Avenue Auckland Central, Auckland, 1010</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                             <div class="col-md-8">
+                                 <div class="alert alert-success" role="alert" id="submittedAlert" style="display:none;">Your feedback is important to use, thank you sending them through!</div>
+                                <div class="editContent">
+                                    <h4>We’d love to hear from you.</h4>
+                                    <p style="color:white;">If you have any feedback you would like to share, please feel free to leave it in the comment section below. Or, email us at <a href="mailto:hello@outloud.digital">hello@outloud.digital</a> </p>
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="txtMessage" class="form-control" rows="3" placeholder="Tell us what you think"></textarea>
+                                    <br />
+                                    <input type="text" id="txtFeedbackEmail" class="form-control" placeholder="Your emaill address"/>
+                                </div>
+                                 <button type="button" class="btn btn-primary" id="btnPostFeedback">Submit Comment</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section>
+        <!--// END Footer 1-1 -->
+    </div><!-- /#page -->
+
+
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Park Smartly", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - cordovaBuild</p>
+        </footer>
+    </div>*@
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+
+    <!-- Core Scripts (Do not remove) -->
+    <script type="text/javascript" src="/Content/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/Content/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Content/js/bootstrap-hover-dropdown.min.js"></script>
+
+    <!-- Vendor Scripts (Feel free to remove any that you aren't using in your final export) -->
+    <script type="text/javascript" src="/Content/js/modernizr.custom.js"></script>
+    <script type="text/javascript" src="/Content/js/headroom.js"></script><!-- Header 1 -->
+    <script type="text/javascript" src="/Content/js/jquery.headroom.js"></script><!-- Header 1 -->
+    <script type="text/javascript" src="/Content/js/count.down.min.js"></script><!-- Promo 2 Countdown -->
+    <script type="text/javascript" src="/Content/js/owl.carousel.min.js"></script><!-- Owl Carousel -->
+    <script type="text/javascript" src="/Content/js/jquery.counterup.min.js"></script><!-- Content 2-7 Counter -->
+    <script type="text/javascript" src="/Content/js/waypoints.min.js"></script><!-- Content 2-7 Counter -->
+    <script type="text/javascript" src="/Content/js/jquery.isotope.min.js"></script><!-- Gallery Filter -->
+    <script type="text/javascript" src="/Content/js/jquery.magnific-popup.min.js"></script><!-- Gallery Popup -->
+    <script type="text/javascript" src="/Content/js/sendmail.js"></script><!-- Contact Form -->
+    <script type="text/javascript" src="/Content/js/contact-form.php"></script><!-- Contact Form -->
+    <!--
+    <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+    -->
+    <!-- Theme Scripts (Do not remove) -->
+    <script type="text/javascript" src="Content/js/bskit-scripts.js"></script>
+
+    <script type="text/javascript">
+        $("#btnPostFeedback").click(function () {
+            $.ajax({
+                url: '@Url.Action("Post", "Feedback")',
+                data: { Message: $("#txtMessage").val(), Email: $("#txtFeedbackEmail").val() },
+                dataType: 'json',
+                method: 'POST',
+                success: function (result) {
+                    $("#submittedAlert").slideDown("slow");
+                },
+                error: function (xhr, error, errorThrown) {
+                }
+
+            });
+        });
+    </script>
+    
+    <script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-66541026-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_LayoutDetailed.cshtml";
+}
+
+@section meta{
+    <meta property="og:image" content="http://www.cordovaBuild.com/Content/images/postingaspace.jpeg" />
+}
+
+<section id="content-1-2" class="content-block content-1-2">
+    <div class="container">
+        <!-- Start Row -->
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="editContent">
+                    <h2>How it works?</h2>
+                </div>
+                <div class="editContent">
+                    <p class="lead">We want to save people from the frustrations of not finding an affordable parking space that pushes them to waste their money on parking in expensive carparks. We want to save people from not being able to park their car with convenience while there are actually unused parking spaces.</p>
+                </div>
+                <div class="editContent">
+                    <p>Carpark sharing is not new and a lot of it exist from around the globe. However, we believe that this same system will work here in New Zealand, especially in Auckland where the CBD parking is crazily expensive and street parking is just not enough in most places.</p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 col-xs-12">
+                        <a href="@Url.Action("Index","PostSpace")" class="btn btn-block btn-primary">Post a Space</a>
+                    </div>
+                    <div class="col-sm-5 col-xs-12">
+                        <a href="@Url.Action("Index","SearchSpace")" class="btn btn-block btn-warning">Find a space</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-5 col-sm-offset-1">
+                <img src="/Content/images/postingaspace.jpeg" class="img-responsive" alt="Responsive image">
+                <!--
+                <div class="embed-responsive embed-responsive-4by3">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/m5qozs0N_WI"
+                            width="500" height="400" frameborder="0" allowfullscreen></iframe>
+                </div>
+                    -->
+            </div>
+        </div>
+        <!--// END Row -->
+    </div>
+</section>

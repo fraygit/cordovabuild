@@ -1,0 +1,261 @@
+﻿@model cordovaBuild.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutMaterialDesignLogin.cshtml";
+
+    var city = new List<SelectListItem>();
+    city.Add(new SelectListItem { Text = "Auckland", Value = "Auckland" });
+
+    var country = new List<SelectListItem>();
+    country.Add(new SelectListItem { Text = "New Zealand", Value = "New Zealand" });
+
+}
+
+
+<section class="section-account">
+    <div class="img-backdrop" style="background-image: url('/assets/img/img16.jpg')"></div>
+    <div class="spacer"></div>
+    <div class="card contain-sm style-transparent">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <br />
+                    <span class="text-lg text-bold text-primary">Sign-up</span>
+                    <br /><br />
+
+
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <fieldset>
+                            <div id="message"></div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username (Required)" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email  (Required)" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", placeholder = "Email" })
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password  (Required)" })
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm password  (Required)" })
+                            </div>
+                            @*<div class="form-group">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Surname" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Address" })
+                            </div>
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.City, city, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.Country, country, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.CheckBoxFor(m => m.AllowAddressVerfication)
+                                @Html.LabelFor(m => m.AllowAddressVerfication)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", @placeholder = "Home phone number" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.MobilePhone, new { @class = "form-control", @placeholder = "Mobile phone number" })
+                            </div>
+                            <div class="form-group">
+                                @Html.CheckBoxFor(m => m.AllowPhoneVerfication)
+                                @Html.LabelFor(m => m.AllowPhoneVerfication)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.DriversLicense, new { @class = "form-control", @placeholder = "Driver's License Number" })
+                            </div>
+                            <div class="form-group">
+                                @Html.CheckBoxFor(m => m.AllowDriverLicenseVerfication)
+                                @Html.LabelFor(m => m.AllowDriverLicenseVerfication)
+                            </div>*@
+                            <div class="form-group">
+                                <input type="checkbox" id="tc" /> <i><small>I have read and accept cordovaBuild's <a href="javascript:ShowTC();">terms and condition</a>.</small></i>
+                            </div>
+                            @Html.HiddenFor(m => m.SearchAddress, new { Address = Model.SearchAddress })
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit" id="cf-submit" name="submit" disabled>Register</button>
+
+                            </div>
+                        </fieldset>
+                    }
+                </div><!-- /.form-container -->
+
+                <div class="modal fade" id="termsandconditionmodal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Terms and condition</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    1. Definitions
+                                    "Seller" shall mean cordovaBuild Limited.
+                                    "Client" shall mean the cordovaBuild.com registered users or any person acting on behalf of and with the authority of the Client.
+                                    "Goods" shall have the same meaning as in section 2 of the Sale of Goods Act 1908 and are Goods supplied by the Seller to the Client.
+                                    "Services" shall mean all Services supplied by the Seller to the Client and includes any advice or recommendations.
+                                    "Fee" shall mean the cost of the Goods and/or Services as agreed between the Seller and the Client.
+                                </p>
+
+                                <p>
+                                    2. Acceptance
+                                    Any instructions received by the Seller from the Client for the supply of Services shall constitute acceptance of the terms and conditions contained herein.
+                                </p>
+
+                                <p>Where more than one Client has entered into this agreement, the Clients shall be jointly and severally liable for all payments of the Fee.</p>
+
+                                <p>Upon acceptance of these terms and conditions by the Client the terms and conditions are irrevocable and can only be rescinded in accordance with these terms and conditions or with the written consent of Seller.</p>
+
+                                <p>None of the Seller's agents or representatives are authorised to make any representations, statements, conditions or agreements not expressed by the Seller in writing nor is the Seller bound by any such unauthorised statements.</p>
+
+                                <p>
+                                    1. Goods / Services
+                                    The Goods and/or Services are as described on the invoice, quotation, or any other order forms as provided by the Seller to the Client.
+                                </p>
+
+                                <p>
+                                    2. Fees and Payment
+                                    At the Seller's sole discretion the Fee shall be as indicated on invoices provided by the Seller to the Client in respect of Goods and/or Services supplied.
+                                </p>
+
+                                <p>The Fee shall be increased by the amount of any GST which may be applicable.</p>
+
+                                <p>Time for payment for the Goods and/or Services shall be of the essence and will be stated on the invoice, quotation or any other order forms. If no time is stated then payment shall be due on supply of the Goods and/or completion of the Service.</p>
+
+                                <p>At the Seller's sole discretion, payment shall be made by progress payments in accordance with the Seller's delivery schedule.</p>
+
+                                <p>
+                                    1. Default & Consequences Of Default
+                                    Interest on overdue invoices shall accrue daily, at a rate of 2.5% per calendar month, from the date when payment becomes due, until the date of payment.
+                                </p>
+
+                                <p>If the Client defaults in payment of any invoice when due, the Client shall indemnify the Seller from and against the Seller's costs and disbursements including legal costs on a solicitor and own client basis, and in addition, all of the Seller's costs of collection.</p>
+
+                                <p>If any account remains unpaid at the end of the second month after supply of the Goods and/or Services, an immediate amount of the greater of $20.00 or 10.00% of the amount overdue shall be levied for administration fees, which sum shall become immediately due and payable in addition to the interest payable.</p>
+
+                                <p>Without prejudice to any other remedies the Seller may have, if at any time the Client is in breach of any obligation (including those relating to payment), the Seller may suspend or terminate the supply of Goods and/or Services to the Client and any of its other obligations under the terms and conditions. The Seller will not be liable to the Client for any loss or damage the Client suffers because the Seller exercised its rights under this clause.</p>
+
+                                <p>
+                                    1. Title
+                                    It is the intention of the Seller and agreed by the Client that property in the Goods and/or Service shall not pass until the Client has paid all amounts owing for the particular Goods and/or Service, and the Client has met all other obligations due by the Client to the Seller, as regards all contracts between the Seller and the Client.
+                                </p>
+
+                                <p>
+                                    2. Privacy Act 1993
+                                    The Client authorises the Seller to collect, retain and use any information about the Client, for the purpose of assessing the Client's creditworthiness, debt recovery action, or marketing any Goods and/or Services provided by the Seller to any other party.
+                                </p>
+
+                                <p>The Client authorises the Seller to disclose any information obtained to any person, for the purposes set out above.</p>
+
+                                <p>Where the Client is a natural person, the authorities above, are authorities or consents for the purposes of the Privacy Act 1993.</p>
+
+                                <p>
+                                    1. Delivery Of Goods and/or Services
+                                    The failure of the Seller to deliver shall not entitle either party to treat this contract as repudiated.
+                                </p>
+
+                                <p>The Seller shall not be liable for any loss or damage whatever due to failure by the Seller to deliver the Goods and/or Service (or any of them) promptly or at all.</p>
+
+                                <p>
+                                    1. Errors & Omissions
+                                    The Client shall inspect the Good and/or Service on completion and shall within seven (7) days of completion notify the Seller of any alleged defect, or failure to comply with the description or quote.
+                                </p>
+
+                                <p>The Client shall afford the Seller a reasonable time following completion to inspect the Goods and/or Service, if the Client believes the Goods and/or Service is defective in any way.</p>
+
+                                <p>If the Client shall fail to comply with these provisions the Goods and/or Service shall be conclusively presumed to be in accordance with the terms and conditions.</p>
+
+                                <p>
+                                    1. Intellectual Property
+                                    Where the Seller has designed or drawn Goods and/or Services for the Client, or services has been supplied, then the copyright and the app will remain vested in the Seller, and shall only be used by the Client at the Seller's discretion.
+                                </p>
+
+                                <p>Where any designs or drawings have been supplied by the Client for manufacture by or to the order of the Seller, then the Client warrants that the use of those designs or drawings shall not infringe the rights of any third party.</p>
+
+                                <p>The Client warrants that any designs or instructions supplied to the Seller will not cause the Seller to infringe any patent, registered design or trademark in the execution of the Client's order.</p>
+
+                                <p>
+                                    1. Disclaimer
+                                    The Client hereby disclaims any right to rescind, or cancel the contract or to sue for damages or to claim restitution arising out of any misrepresentation made to him by any representative or agent of the Seller and the Client acknowledges that he buys the Goods and/or Services relying solely upon his own skill and judgement.
+                                </p>
+
+                                <p>
+                                    2. Cancellation
+                                    The Seller may cancel these terms and conditions or cancel delivery of Goods and/or Services at any time before the Goods and/or Services are delivered by giving written notice. On giving such notice the Seller shall promptly repay to the Client any sums paid in respect of the Fee for those Goods and/or Services. The Seller shall not be liable for any loss or damage whatsoever arising from such cancellation.
+                                </p>
+
+                                <p>At the Seller's sole discretion the Client may cancel delivery of Goods and/or Services. In the event that the Client cancels delivery of Goods and/or Services the Client shall be liable for any costs incurred by the Seller up to the time of cancellation. The client shall provide 30 day notice of cancellation in writing and all outstanding fees will be paid before any information or files will be released. In canceling of cordovaBuild.com services the client looses the ability to use this service once the site is transferred to another server.</p>
+
+                                <p>
+                                    1. Consumer Guarantees Act 1993
+                                    This agreement is subject, in all cases except where the Client is contracting within the terms of a trade/business (which cases are specifically excluded), to the provisions of the Consumer Guarantees Act 1993.
+                                </p>
+
+                                <p>
+                                    2. General
+                                    If any provision of these terms and conditions shall be deemed invalid, void, illegal or unenforceable, the validity existence, legality and enforceability of the remaining provisions shall not be affected, prejudiced or impaired.
+                                </p>
+
+                                <p>All Goods and/or Services supplied by the Seller are subject to the laws of New Zealand and the Seller takes no responsibility for changes in the law that affect the Goods and/or Services supplied.</p>
+
+                                <p>In the event of any breach of this contract by the Seller the remedies of the Client shall be limited to damages. Under no circumstances shall the liability of the Seller exceed the Price of the Goods and/or Service.</p>
+
+                                <p>The Seller may license or sub-contract all or any part of its rights and obligations without the Client's consent.</p>
+
+                                <p>The Client shall not set off against the Price amounts due from the Seller.</p>
+
+                                <p>The Seller reserves the right to review these terms and conditions at any time. If, following any such review, there is to be any change in such terms and conditions, that change will take effect from the date on which the Seller notifies the Client of such change.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function ShowTC() {
+            $("#termsandconditionmodal").modal('show');
+        }
+
+        $("#tc").change(function () {
+            if ($("#tc").prop('checked') == true) {
+                $("#cf-submit").removeProp("disabled");
+            }
+            else {
+                $("#cf-submit").prop('disabled', true);
+            }
+        });
+
+        $("#btnPostFeedback").click(function () {
+            $.ajax({
+                url: '@Url.Action("Post", "Feedback")',
+                data: { Message: $("#txtMessage").val(), Email: $("#txtFeedbackEmail").val() },
+                dataType: 'json',
+                method: 'POST',
+                success: function (result) {
+                    $("#submittedAlert").slideDown("slow");
+                },
+                error: function (xhr, error, errorThrown) {
+                }
+
+            });
+        });
+    </script>
+}

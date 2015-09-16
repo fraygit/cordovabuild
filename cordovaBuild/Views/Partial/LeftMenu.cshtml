@@ -1,0 +1,40 @@
+﻿
+
+<div class="menubar-scroll-panel">
+
+    <!-- BEGIN MAIN MENU -->
+    <ul id="main-menu" class="gui-controls">
+
+        <!-- BEGIN DASHBOARD -->
+        <li>
+            <a href="@Url.Action("Index","Account")" class="@ViewBag.MenuSearchClass">
+                <div class="gui-icon"><i class="md md-search"></i></div>
+                <span class="title">Search for a carpark</span>
+            </a>
+        </li><!--end /menu-li -->
+        <li class="gui-folder expanded @ViewBag.MenuPropertyOwnerClass">
+            <a>
+                <div class="gui-icon"><i class="md md-business"></i></div>
+                <span class="title">Property Owner</span>
+            </a>
+            <!--start submenu -->
+            <ul>
+                <li><a href="@Url.Action("Index","PostSpace")"><span class="title">Post Carpark</span></a></li>
+                <li><a href="@Url.Action("List","PostSpace")"><span class="title">My Carpark</span></a></li>
+            </ul><!--end /submenu -->
+        </li>
+        <li>
+            <a href="@Url.Action("Account","Account")" class="@ViewBag.MenuAccountClass">
+                <div class="gui-icon"><i class="md md-attach-money"></i></div>
+                <span class="title">Account</span>
+            </a>
+        </li>
+    </ul><!--end .main-menu -->
+    <!-- END MAIN MENU -->
+
+    <div class="menubar-foot-panel">
+        <small class="no-linebreak hidden-folded">
+            <span class="opacity-75">Copyright &copy; 2015</span> <strong>cordovaBuild</strong>
+        </small>
+    </div>
+</div><!--end .menubar-scroll-panel-->

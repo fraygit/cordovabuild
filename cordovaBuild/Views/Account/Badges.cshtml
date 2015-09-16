@@ -1,0 +1,165 @@
+﻿@using cordovaBuild.Models
+@model cordovaBuild.Data.Model.Badge
+
+
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_LayoutDetailed.cshtml";
+    ViewBag.PageName = "badges";
+    
+    var addressColor = Model.IsAddressVerified ? "#f1c40f" : "gray";
+    var driverColor = Model.IsDriversLicenseVerified ? "#f1c40f" : "gray";
+    var carColor = Model.IsVehicleVerified ? "#f1c40f" : "gray";
+    var phoneColor = Model.IsPhoneVerified ? "#f1c40f" : "gray";
+}
+
+
+<section class="content-block contact-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Partial("~/Views/Partial/DashboardTopMenu.cshtml")
+            </div><!-- /.form-container -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Your badges</h3>
+            </div><!-- /.form-container -->
+        </div>
+        <form class="form-container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="alert alert-danger" role="alert" id="errorAuthenticated" style="display:none;">Unfortunately we couldn't find a space for you at the moment. In the meantime, we have captured your search and we'll notify you once a parking space is available.</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2">
+
+                    <i class="fa fa-home fa-stack-2x" style="color:@addressColor;font-size:60px;"></i>
+                    @if (Model.IsAddressVerified) { 
+                        <i class="fa fa-check-circle-o fa-stack-1x" style="color:green;font-size:30px;"></i>
+                    }
+                </div>
+                @if (!Model.IsAddressVerified) {
+                    <div class="col-lg-3">
+                        <p>We have sent you a post with your code. Once you received the letter, input the code here.</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" id="txtCode" placeholder="Enter code recieved from post">
+                        <button type="button" class="btn btn-primary" id="btnSubmitCode">
+                            Submit
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3">
+                        <p>Address is verified.</p>
+                    </div>
+                }            </div>
+            <div class="row">
+                <div class="col-lg-2">
+
+                    <i class="fa fa-user fa-stack-2x" style="color:@driverColor;font-size:60px;"></i>
+                    @if (Model.IsDriversLicenseVerified)
+                    {
+                        <i class="fa fa-check-circle-o fa-stack-1x" style="color:green;font-size:30px;"></i>
+                    }
+                </div>
+                @if (!Model.IsDriversLicenseVerified)
+                {
+                    <div class="col-lg-3">
+                        <p>Email us a copy of your Driver's license at <a href="mailto:hello@cordovaBuild.com">hello@cordovaBuild.com</a> and once we verified, we will grant you this badge.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3">
+                        <p>Driver's license is verified.</p>
+                    </div>
+                }            </div>
+            <div class="row">
+                <div class="col-lg-2">
+
+                    <i class="fa fa-car fa-stack-2x" style="color:@carColor;font-size:60px;"></i>
+                    @if (Model.IsVehicleVerified)
+                    {
+                        <i class="fa fa-check-circle-o fa-stack-1x" style="color:green;font-size:30px;"></i>
+                    }
+                </div>
+                    @if (!Model.IsVehicleVerified)
+                    {
+                        <div class="col-lg-3">
+                            <p>Email us a copy of your Driver's license at <a href="mailto:hello@cordovaBuild.com">hello@cordovaBuild.com</a> and once we verified, we will grant you this badge.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-3">
+                            <p>Vehicles is verified.</p>
+                        </div>
+                    }
+            </div>
+            <div class="row">
+                <div class="col-lg-2">
+                    <br /><br />
+                    <i class="fa fa-phone fa-stack-2x" style="color:@phoneColor;font-size:60px;"></i>
+                    @if (Model.IsPhoneVerified)
+                    {
+                        <i class="fa fa-check-circle-o fa-stack-1x" style="color:green;font-size:30px;"></i>
+                    }
+                </div>
+                @if (!Model.IsPhoneVerified)
+                {
+                    <div class="col-lg-3">
+                        <br /><br />
+                        <p>We will ring you to verify your mobile or home phone number.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3">
+                        <p>Phone is verified.</p>
+                    </div>
+                }                
+            </div>
+
+
+        </form>
+</div>
+
+
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        $("#btnSubmitCode").click(function () {
+            if (!/^\s*$/.test($("#txtCode").val()) ) {
+                data = {
+                    code: $("#txtCode").val()
+                };
+                $.ajax({
+                    url: '@Url.Action("SubmitCodeBadge", "Account")',
+                    data: data,
+                    dataType: 'json',
+                    method: 'POST',
+                    success: function (result) {
+                        document.location.href = '@Url.Action("Badges","Account")';
+                    },
+                    error: function (xhr, error, errorThrown) {
+                        $(".alert-danger").html("Please fill-in the correct code.");
+                        $(".alert-danger").slideDown("slow");
+                    }
+                });
+            }
+            else {
+                $(".alert-danger").html("Please fill-in the correct code.");
+                $(".alert-danger").slideDown('slow');
+            }
+        });
+    </script>
+}

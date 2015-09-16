@@ -1,0 +1,163 @@
+﻿@using cordovaBuild.Models
+@model LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutMaterialDesignLogin.cshtml"; 
+}
+
+
+    <!-- BEGIN LOGIN SECTION -->
+    <section class="section-account">
+        <div class="img-backdrop" style="background-image: url('/assets/img/img16.jpg')"></div>
+        <div class="spacer"></div>
+        <div class="card contain-sm style-transparent">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <br />
+                        <span class="text-lg text-bold text-primary">cordovaBuild Login</span>
+                        <br /><br />
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form floating-label", role = "form" }))
+                                            {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username" })
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger", placeholder = "Username" })
+                                <label for="username">Username</label>
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                <label for="password">Password</label>
+                                <p class="help-block"><a href="#">Forgotten?</a></p>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-xs-6 text-left">
+                                        <label>
+                                            @Html.CheckBoxFor(m => m.RememberMe)
+                                            @Html.LabelFor(m => m.RememberMe)
+                                        </label>
+                                </div><!--end .col -->
+                                <div class="col-xs-6 text-right">
+                                    <button class="btn btn-primary btn-raised" type="submit">Login</button>
+                                </div><!--end .col -->
+                            </div><!--end .row -->
+                        }
+                    </div><!--end .col -->
+                    <div class="col-sm-5 col-sm-offset-1 text-center">
+                        <br><br>
+                        <h3 class="text-light">
+                            No account yet?
+                        </h3>
+                        <a class="btn btn-block btn-raised btn-primary" href="@Url.Action("Register","Account")">Sign up here</a>
+                        <br><br>
+                    <!--
+                        <h3 class="text-light">
+                            or
+                        </h3>
+                        <p>
+                            <a href="#" class="btn btn-block btn-raised btn-info"><i class="fa fa-facebook pull-left"></i>Login with Facebook</a>
+                        </p>
+                        <p>
+                            <a href="#" class="btn btn-block btn-raised btn-info"><i class="fa fa-twitter pull-left"></i>Login with Twitter</a>
+                        </p>
+                        -->
+                    </div><!--end .col -->
+                </div><!--end .row -->
+            </div><!--end .card-body -->
+        </div><!--end .card -->
+    </section>
+    <!-- END LOGIN SECTION -->
+    <!-- BEGIN JAVASCRIPT -->
+
+<form id="__AjaxAntiForgeryForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        AddAntiForgeryToken = function (data) {
+            data.__RequestVerificationToken = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();
+            return data;
+        };
+
+      window.fbAsyncInit = function() {
+        FB.init({
+            appId: '478311155671218',
+          xfbml      : true,
+          version    : 'v2.4'
+        });
+      };
+
+      function statusChangeCallback(response) {
+          console.log('statusChangeCallback');
+          console.log(response);
+          // The response object is returned with a status field that lets the
+          // app know the current login status of the person.
+          // Full docs on the response object can be found in the documentation
+          // for FB.getLoginStatus().
+          if (response.status === 'connected') {
+              // Logged into your app and Facebook.
+              testAPI();
+          } else if (response.status === 'not_authorized') {
+              // The person is logged into Facebook, but not your app.
+              document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+          } else {
+              // The person is not logged into Facebook, so we're not sure if
+              // they are logged into this app or not.
+              document.getElementById('status').innerHTML = 'Please log ' +
+                'into Facebook.';
+          }
+      }
+
+      function Login(response) {
+          $.ajax({
+              type: "POST",
+              dataType: 'json',
+              url:'@Url.Action("LoginFacebook","Account")',
+              data: AddAntiForgeryToken({ UserName: response.id, Password:'somepassword', RememberMe: false}),
+              success: function (response) {
+                  document.location.href = "/PostSpace";
+              }, 
+              error: function(xhr, error, errorThrown){
+                  alert(xhr.responseJSON.responseText);
+              }
+          });
+      }
+
+      function checkLoginState() {
+          FB.getLoginStatus(function (response) {
+              statusChangeCallback(response);
+          });
+      }
+
+      function LoginFB() {
+          FB.login(function (response) {
+              if (response.status === 'connected') {
+                  // Logged into your app and Facebook.
+
+                  FB.api('/me', function (response) {
+                      console.log('Good to see you, ' + response.name + '.');
+                      Login(response);
+                  });
+              } else if (response.status === 'not_authorized') {
+                  // The person is logged into Facebook, but not your app.
+              } else {
+                  // The person is not logged into Facebook, so we're not sure if
+                  // they are logged into this app or not.
+              }
+          }, { scope: 'email, public_profile' });
+      }
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+}

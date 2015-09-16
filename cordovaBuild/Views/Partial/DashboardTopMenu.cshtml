@@ -1,0 +1,26 @@
+﻿
+
+
+<ul class="nav nav-tabs">
+    <li role="presentation" class="@GetClassActive("home")"><a href="@Url.Action("Index","Account")">Home</a></li>
+    <li role="presentation" class="@GetClassActive("myspace")"><a href="@Url.Action("List","PostSpace")">My Spaces</a></li>
+    <li role="presentation" class="@GetClassActive("accounts")"><a href="@Url.Action("Account","Account")">Accounts</a></li>
+    <li role="presentation" class="@GetClassActive("badges")"><a href="@Url.Action("Badges","Account")">Badges</a></li>
+    
+</ul>
+
+
+@functions
+{
+    public string GetClassActive(string page)
+    {
+        if (page == ViewBag.PageName)
+        {
+            return "active";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
+}
