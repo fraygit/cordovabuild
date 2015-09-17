@@ -57,3 +57,4 @@ C:\fray\GitProject\cordovabuild\cordovaBuild\bin\Microsoft.Owin.Security.Twitter
 C:\fray\GitProject\cordovabuild\cordovaBuild\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\fray\GitProject\cordovabuild\cordovaBuild\obj\Debug\cordovaBuild.dll
 C:\fray\GitProject\cordovabuild\cordovaBuild\obj\Debug\cordovaBuild.pdb
+C:\fray\GitProject\cordovabuild\cordovaBuild\obj\Debug\cordovaBuild.csprojResolveAssemblyReference.cache

@@ -17,6 +17,7 @@
     <link type="text/css" rel="stylesheet" href="/assets/css/theme-default/material-design-iconic-font.min.css?1421434286" />
     <link type="text/css" rel="stylesheet" href="/assets/css/theme-default/libs/rickshaw/rickshaw.css?1422792967" />
     <link type="text/css" rel="stylesheet" href="/assets/css/theme-default/libs/morris/morris.core.css?1420463396" />
+    <link href="~/assets/css/theme-default/libs/wizard/wizard.css" rel="stylesheet" />
     <!-- END STYLESHEETS -->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -162,11 +163,9 @@
         <!-- BEGIN CONTENT-->
         <div id="content">
             <section>
-                <div class="section-body">
+                <div class="section-body contain-lg">
 
-                    <div class="row">
-                        @RenderBody()
-                    </div>
+                    @RenderBody()
 
                 </div><!--end .section-body -->
             </section>
@@ -474,6 +473,7 @@
     <script src="/assets/js/core/source/AppVendor.js"></script>
     <script src="/assets/js/core/demo/Demo.js"></script>
     <script src="/assets/js/core/demo/DemoDashboard.js"></script>
+    <script src="/assets/js/libs/wizard/jquery.bootstrap.wizard.min.js"></script>
     <!-- END JAVASCRIPT -->
     @RenderSection("scripts", required: false)
 

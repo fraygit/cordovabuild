@@ -151,7 +151,7 @@ namespace cordovaBuild.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index", "Account");
+                    return RedirectToAction("Create", "Project");
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
