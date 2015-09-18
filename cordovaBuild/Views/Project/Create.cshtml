@@ -70,25 +70,73 @@
                             </div><!--end #step1 -->
                             <div class="tab-pane" id="step2">
                                 <br><br>
-                                <p>
-                                    <button type="button" class="btn ink-reaction btn-raised btn-primary" id="btnBuildAndroid">
-                                       <label class="btn ink-reaction btn-primary">
-                                           <i class="fa fa-android"></i> &nbsp;Build Android
-                                       </label>                                    
-                                    </button>
-                                    &nbsp;&nbsp;
-                                    <button type="button" class="btn ink-reaction btn-raised btn-primary disabled">
-                                        <label class="btn ink-reaction btn-primary">
-                                            <i class="fa fa-apple"></i> &nbsp;Build iOS
-                                        </label>
-                                    </button>
-                                    &nbsp;&nbsp;
-                                    <button type="button" class="btn ink-reaction btn-raised btn-primary disabled">
-                                        <label class="btn ink-reaction btn-primary">
-                                            <i class="fa fa-windows"></i> &nbsp;Build Windows
-                                        </label>
-                                    </button>
-                                </p>
+                                <div class="card tabs-left style-default-light">
+                                    <ul class="card-head nav nav-tabs" data-toggle="tabs">
+                                        <li class="active"><a href="#first5"><i class="fa fa-android"></i> &nbsp;Android</a></li>
+                                        <li class=""><a href="#second5"><i class="fa fa-apple"></i> &nbsp;iOS</a></li>
+                                        <li class=""><a href="#third5"><i class="fa fa-windows"></i> &nbsp;Windows</a></li>
+                                    </ul>
+                                    <div class="card-body tab-content style-default-bright">
+                                        <div class="tab-pane active" id="first5">
+                                            <p>
+                                                <button type="button" class="btn ink-reaction btn-raised btn-primary" id="btnBuildAndroid">
+                                                    <label class="btn ink-reaction btn-primary">
+                                                        <i class="fa fa-android"></i> &nbsp;Build Android
+                                                    </label>
+                                                </button>
+                                            </p>
+                                            <div class="alert alert-success" role="alert" id="alertSucessAndroid" style="display:none;">
+                                                Andoid build started, please refresh the table below in a few minutes to get the output.
+                                            </div>
+                                            <h3>Build Output</h3>
+                                            <button type="button" class="btn ink-reaction btn-floating-action btn-primary pull-right" id="btnRefreshAndroid">
+                                                <i class="fa fa-refresh"></i>
+                                            </button>
+                                            <div id="divAndroidBuildLog"></div>
+                                        </div>
+                                        <div class="tab-pane" id="second5">
+                                            <p>
+                                                <button type="button" class="btn ink-reaction btn-raised btn-primary disabled" id="btnBuildAndroid">
+                                                    <label class="btn ink-reaction btn-primary">
+                                                        <i class="fa fa-apple"></i> &nbsp;Build iOS
+                                                    </label>
+                                                </button>
+                                            </p>
+                                            <h3>Build Output</h3>
+                                            <table class="table no-margin">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>First Name</th>
+                                                        <th>Last Name</th>
+                                                        <th>Username</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="third5">
+                                            <p>
+                                                <button type="button" class="btn ink-reaction btn-raised btn-primary disabled" id="btnBuildAndroid">
+                                                    <label class="btn ink-reaction btn-primary">
+                                                        <i class="fa fa-windows"></i> &nbsp;Build Windows
+                                                    </label>
+                                                </button>
+                                            </p>
+                                            <h3>Build Output</h3>
+                                            <table class="table no-margin">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>First Name</th>
+                                                        <th>Last Name</th>
+                                                        <th>Username</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div><!--end .card-body -->
+                                </div>
+
                             </div><!--end #step2 -->
                             <div class="tab-pane" id="step3">
                                 <br><br>
@@ -139,20 +187,44 @@
             Build();
         });
 
+        $("#btnRefreshAndroid").click(function () {
+            GetBuildLog('android')
+        });
+
+        function GetBuildLog(buildType) {
+            $.ajax({
+                url: '@Url.Action("BuildLog", "Project")',
+                data: JSON.stringify({ projectId: '1', buildType: buildType }), //{ address: address, instructions: instructions},
+                contentType: 'application/json',
+                method: 'POST',
+                dataType: 'HTML',
+                success: function (result) {
+                    var sssdf = result;
+                    $("#divAndroidBuildLog").html(result);
+                },
+                error: function (xhr, error, errorThrown) {
+                    $("#divAndroidBuildLog").html(xhr.responseText);
+                }
+            });
+        }
+
         function Build() {
             $.ajax({
-                url: '@Url.Action("Build", "Project")',
+                url: '@Url.Action("BuildAndroid", "Project")',
                 data: {}, //{ address: address, instructions: instructions},
                 dataType: 'json',
                 method: 'POST',
                 success: function (result) {
                     var sssdf = result;
+                    $("#alertSucessAndroid").slideDown();
                 },
                 error: function (xhr, error, errorThrown) {
                     var esd = error;
                 }
             });
         }
+
+        GetBuildLog('android');
 
 
     </script>

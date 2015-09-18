@@ -17,10 +17,4 @@ namespace cordovaBuild.Data.Model
         public DateTime DateCreated { get; set; }
     }
 
-    public class Build
-    {
-        public string Filename { get; set; }
-        public string Status { get; set; }
-        public DateTime DateCreated { get; set; }
-    }
 }

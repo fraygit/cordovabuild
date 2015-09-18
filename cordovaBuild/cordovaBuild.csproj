@@ -182,6 +182,7 @@
     <Compile Include="Data\Entities\Base\MongoEntity.cs" />
     <Compile Include="Data\Interface\IAccountStatementRepository.cs" />
     <Compile Include="Data\Interface\IBadgeRepository.cs" />
+    <Compile Include="Data\Interface\IBuildRepository.cs" />
     <Compile Include="Data\Interface\IFeedbackRepository.cs" />
     <Compile Include="Data\Interface\IPostRepository.cs" />
     <Compile Include="Data\Interface\IProjectRepository.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Data\Interface\IWithdrawalRepository.cs" />
     <Compile Include="Data\Model\AccountStatement.cs" />
     <Compile Include="Data\Model\Badge.cs" />
+    <Compile Include="Data\Model\Build.cs" />
     <Compile Include="Data\Model\Feedback.cs" />
     <Compile Include="Data\Model\Project.cs" />
     <Compile Include="Data\Model\Search.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Data\Model\Withdrawal.cs" />
     <Compile Include="Data\Repository\AccountStatementRepository.cs" />
     <Compile Include="Data\Repository\BadgeRepository.cs" />
+    <Compile Include="Data\Repository\BuildRepository.cs" />
     <Compile Include="Data\Repository\FeedbackRepository.cs" />
     <Compile Include="Data\Repository\PostRepository.cs" />
     <Compile Include="Data\Repository\ProjectRepository.cs" />
@@ -212,6 +215,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Helper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -2284,6 +2288,7 @@
     <Content Include="Views\Shared\_LayoutMaterialDesignLogin.cshtml" />
     <Content Include="Views\Partial\LeftMenu.cshtml" />
     <Content Include="Views\Project\Create.cshtml" />
+    <Content Include="Views\Project\BuildLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
