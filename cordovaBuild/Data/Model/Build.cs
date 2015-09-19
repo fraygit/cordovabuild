@@ -12,7 +12,9 @@ namespace cordovaBuild.Data.Model
     {
         public ObjectId ProjectId { get; set; }
         public string BuildType { get; set; }
-        public string Filename { get; set; }
+        public string BuildFileLog { get; set; }
+        public string GitFileLog { get; set; }
+        public string OutputZipFile { get; set; }
         public string Status { get; set; }
         public int BuildTimeSec { get; set; }
         public DateTime BuildDateTime { get; set; }

@@ -13,7 +13,7 @@ namespace cordovaBuild.Data.Model
         public string User {get; set;}
         public string GitUrl { get; set; }
         public string GitUsername { get; set; }
-        public string GetPassword { get; set; }
+        public string GitPassword { get; set; }
         public DateTime DateCreated { get; set; }
     }
 

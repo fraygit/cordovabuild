@@ -42,13 +42,13 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" name="txtProjectName" id="txtProjectName" class="form-control" data-rule-minlength="2" required="">
+                                            <input type="text" name="txtProjectName" id="txtProjectName" value="CordovaBootstrap3Angular1.2.26" class="form-control" data-rule-minlength="2" required="">
                                             <label for="firstname" class="control-label">Project name</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" name="txtGitRepository" id="txtGitRepository" class="form-control" data-rule-minlength="2" required="">
+                                            <input type="text" name="txtGitRepository" id="txtGitRepository" value="https://github.com/fraygit/CordovaBootstrap3Angular1.2.26.git" class="form-control" data-rule-minlength="2" required="">
                                             <label for="lastname" class="control-label">Git repository</label>
                                         </div>
                                     </div>
@@ -56,13 +56,13 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" name="txtGitUsername" id="txtGitUsername" class="form-control" data-rule-minlength="2" required="">
+                                            <input type="text" name="txtGitUsername" id="txtGitUsername" value="fraygit" class="form-control" data-rule-minlength="2" required="">
                                             <label for="firstname" class="control-label">Git username</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="password" name="txtGitPassword" id="txtGitPassword" class="form-control" data-rule-minlength="2" required="">
+                                            <input type="password" name="txtGitPassword" id="txtGitPassword" value="francis987" class="form-control" data-rule-minlength="2" required="">
                                             <label for="lastname" class="control-label">Git password</label>
                                         </div>
                                     </div>
@@ -192,6 +192,7 @@
         });
 
         function GetBuildLog(buildType) {
+
             $.ajax({
                 url: '@Url.Action("BuildLog", "Project")',
                 data: JSON.stringify({ projectId: '1', buildType: buildType }), //{ address: address, instructions: instructions},
@@ -209,9 +210,15 @@
         }
 
         function Build() {
+            var dataParameters = {
+                Name: $("#txtProjectName").val(),
+                GitUrl: $("#txtGitRepository").val(),
+                GitUsername: $("#txtGitUsername").val(),
+                GitPassword: $("#txtGitPassword").val()
+            };
             $.ajax({
                 url: '@Url.Action("BuildAndroid", "Project")',
-                data: {}, //{ address: address, instructions: instructions},
+                data: dataParameters, 
                 dataType: 'json',
                 method: 'POST',
                 success: function (result) {
