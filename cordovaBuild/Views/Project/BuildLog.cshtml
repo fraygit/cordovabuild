@@ -1,23 +1,26 @@
-﻿@{
+﻿@model List<cordovaBuild.Data.Model.Build>
+@{
     Layout = null;
 }
 
 <table class="table no-margin">
     <thead>
         <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>Output</th>
+            <th>Build Log</th>
+            <th>Status</th>
+            <th>Date Time</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>mdo</td>
-        </tr>
+        @foreach (var item in Model) { 
+            <tr>
+                <td>@item.OutputZipFile</td>
+                <td>@item.BuildFileLog</td>
+                <td>@item.Status</td>
+                <td>@item.BuildDateTime</td>
+            </tr>
+        }
     </tbody>
 </table>
 

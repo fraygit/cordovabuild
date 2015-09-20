@@ -180,6 +180,7 @@
     <Compile Include="Controllers\SearchSpaceController.cs" />
     <Compile Include="Controllers\SubscriberController.cs" />
     <Compile Include="Controllers\WithdrawController.cs" />
+    <Compile Include="CustomBinder\ObjectIdModelBinder.cs" />
     <Compile Include="Data\Entities\Base\IMongoEntity.cs" />
     <Compile Include="Data\Entities\Base\MongoEntity.cs" />
     <Compile Include="Data\Interface\IAccountStatementRepository.cs" />
@@ -2291,6 +2292,7 @@
     <Content Include="Views\Partial\LeftMenu.cshtml" />
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Project\BuildLog.cshtml" />
+    <Content Include="Views\Project\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

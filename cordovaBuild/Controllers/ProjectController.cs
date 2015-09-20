@@ -24,16 +24,43 @@ namespace cordovaBuild.Controllers
         }
 
         [Authorize]
-        public ActionResult Create()
+        public async Task<ActionResult> Create(string projectId)
         {
-            return View();
+            if (!string.IsNullOrEmpty(projectId))
+            {
+                var projectRepo = new ProjectRepository();
+                var project = await projectRepo.Get(projectId);
+                if (project == null)
+                {
+                    project = new Project();
+                }
+                return View(project);
+            }
+            return View(new Project());
+        }
+
+        [Authorize]
+        public async Task<ActionResult> List()
+        {
+            var projectRepo = new ProjectRepository();
+            var projects = await projectRepo.GetByUser(User.Identity.Name);
+            return View(projects);
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult BuildLog(string projectId, string buildType)
+        public async Task<ActionResult> BuildLog(string projectId, string buildType)
         {
-            return View();
+            if (!string.IsNullOrEmpty(projectId))
+            {
+                var buildRepo = new BuildRepository();
+                if (!string.IsNullOrEmpty(projectId))
+                {
+                    var builds = await buildRepo.GetByProject(projectId);
+                    return View(builds);
+                }
+            }
+            return View(new List<Build>());
         }
 
 
@@ -42,21 +69,38 @@ namespace cordovaBuild.Controllers
         public async Task<ActionResult> BuildAndroid(Project project)
         {
             var projectRepo = new ProjectRepository();
+            var isNewProject = false;
             if (project.Id.ToString().Trim() == "000000000000000000000000")
             {
+                isNewProject = true;
                 project.DateCreated = Helper.SetDateForMongo(DateTime.Now);
                 project.User = User.Identity.Name;
                 await projectRepo.CreateSync(project);
             }
 
             var output = ProcessBuild(project, "android", User.Identity.Name);
-            return Json(new { success = true, responseText = output }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, projectId = project.Id.ToString(), isNew = isNewProject }, JsonRequestBehavior.AllowGet);
         }
 
-        private Task ProcessBuild(Project project, string buildType, string user)
+        private async Task<Task> ProcessBuild(Project project, string buildType, string user)
         {
+            var buildRepo = new BuildRepository();
+            var ticks = DateTime.Now.Ticks.ToString();
+            var build = new Build
+            {
+                ProjectId = project.Id,
+                BuildType = buildType,
+                Status = "Pulling source files",
+                BuildDateTime = Helper.SetDateForMongo(DateTime.Now),
+                BuildFileLog = string.Format("{0}{1}_{2}Build.txt", user, ticks, buildType),
+                GitFileLog = string.Format("{0}{1}_{2}GitPull.txt", user, ticks, buildType),
+                OutputZipFile = string.Format("{0}{1}_{2}Build.zip", user, ticks, buildType),
+            };
+            await buildRepo.CreateSync(build);
+
             return Task.Factory.StartNew(() =>
             {
+                var startDateTime = DateTime.Now;
                 var baseWorkingDirectory = ConfigurationManager.AppSettings["WorkingDirectory"].ToString();
                 var baseOutputDirectory = ConfigurationManager.AppSettings["OutputDirectory"].ToString();
 
@@ -72,20 +116,6 @@ namespace cordovaBuild.Controllers
                     Directory.CreateDirectory(outputDirectory);
                 }
 
-                var buildRepo = new BuildRepository();
-                var ticks = DateTime.Now.Ticks.ToString();
-                var build = new Build
-                {
-                    ProjectId = project.Id,
-                    BuildType = buildType,
-                    Status = "Pulling source files",
-                    BuildDateTime = Helper.SetDateForMongo(DateTime.Now),
-                    BuildFileLog = string.Format("{0}{1}_{2}Build.txt", user, ticks, buildType),
-                    GitFileLog = string.Format("{0}{1}_{2}GitPull.txt", user, ticks, buildType),
-                    OutputZipFile = string.Format("{0}{1}_{2}Build.zip", user, ticks, buildType),
-                };
-                buildRepo.Create(build);
-
                 var gitCommand = string.Format("git clone https://{0}:{1}@{2}", project.GitUsername, project.GitPassword, project.GitUrl.Replace("https://", ""));
 
                 ExecuteCommand(gitCommand, workingDirectory, outputDirectory, build.GitFileLog);
@@ -100,15 +130,21 @@ namespace cordovaBuild.Controllers
 
                     ExecuteCommand(cordovaAddPlatformCommand, projectFolder, outputDirectory, build.BuildFileLog);
 
-                    var cordovaBuildCommand = string.Format("cordova build {0}", buildType);
+                    var cordovaBuildCommand = string.Format("cordova build {0}", buildType);                     
 
                     ExecuteCommand(cordovaBuildCommand, projectFolder, outputDirectory, build.BuildFileLog);
 
-                    var buildDirectory = Path.Combine(workingDirectory, string.Format("platforms\\{0}", buildType));
+                    var buildDirectory = Path.Combine(workingDirectory, projectFolder, string.Format("platforms\\{0}", buildType));
                     var zipFullPath = Path.Combine(outputDirectory, build.OutputZipFile);
-                    ZipFile.CreateFromDirectory(buildDirectory, zipFullPath);
+                    Task.Run(async () =>
+                    {
+                        var timeDifference = DateTime.Now - startDateTime;
+                        buildRepo.UpdateStatus("Completed", build.Id.ToString(), (int)timeDifference.TotalSeconds);
+                    });
+                    ZipFile.CreateFromDirectory(buildDirectory, zipFullPath, CompressionLevel.Fastest, true);
                     
                 }
+
 
             });
 

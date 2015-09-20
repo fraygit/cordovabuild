@@ -1,5 +1,5 @@
 ﻿@using cordovaBuild.Models
-@model LoginViewModel
+@model cordovaBuild.Data.Model.Project
 
 
 @{
@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="text-primary">Create Project</h1>
+        <h1 class="text-primary" id="project-title">Create Project</h1>
     </div><!--end .col -->
     <div class="col-lg-8">
         <article class="margin-bottom-xxl">
@@ -29,12 +29,14 @@
                 <div id="rootwizard2" class="form-wizard form-wizard-horizontal">
                     <form class="form floating-label form-validation" role="form" novalidate="novalidate">
                         <div class="form-wizard-nav">
-                            <div class="progress" style="width: 75%;"><div class="progress-bar progress-bar-primary" style="width: 0%;"></div></div>
+                            <div class="progress" style="width: 50%;"><div class="progress-bar progress-bar-primary" style="width: 0%;"></div></div>
                             <ul class="nav nav-justified nav-pills">
                                 <li class="active"><a href="#step1" data-toggle="tab"><span class="step">1</span> <span class="title">DETAILS</span></a></li>
                                 <li><a href="#step2" data-toggle="tab"><span class="step">2</span> <span class="title">BUILD</span></a></li>
+                                <!--
                                 <li><a href="#step3" data-toggle="tab"><span class="step">3</span> <span class="title">OUTPUT</span></a></li>
                                 <li><a href="#step4" data-toggle="tab"><span class="step">4</span> <span class="title">LOGS</span></a></li>
+                                    //-->
                             </ul>
                         </div><!--end .form-wizard-nav -->
                         <div class="tab-content clearfix">
@@ -42,13 +44,13 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" name="txtProjectName" id="txtProjectName" value="CordovaBootstrap3Angular1.2.26" class="form-control" data-rule-minlength="2" required="">
+                                            <input type="text" name="txtProjectName" id="txtProjectName" value="@Model.Name" class="form-control" data-rule-minlength="2" required="">
                                             <label for="firstname" class="control-label">Project name</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" name="txtGitRepository" id="txtGitRepository" value="https://github.com/fraygit/CordovaBootstrap3Angular1.2.26.git" class="form-control" data-rule-minlength="2" required="">
+                                            <input type="text" name="txtGitRepository" id="txtGitRepository" value="@Model.GitUrl" class="form-control" data-rule-minlength="2" required="">
                                             <label for="lastname" class="control-label">Git repository</label>
                                         </div>
                                     </div>
@@ -56,13 +58,13 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" name="txtGitUsername" id="txtGitUsername" value="fraygit" class="form-control" data-rule-minlength="2" required="">
+                                            <input type="text" name="txtGitUsername" id="txtGitUsername" value="@Model.GitUsername" class="form-control" data-rule-minlength="2" required="">
                                             <label for="firstname" class="control-label">Git username</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="password" name="txtGitPassword" id="txtGitPassword" value="francis987" class="form-control" data-rule-minlength="2" required="">
+                                            <input type="password" name="txtGitPassword" id="txtGitPassword" value="@Model.GitPassword" class="form-control" data-rule-minlength="2" required="">
                                             <label for="lastname" class="control-label">Git password</label>
                                         </div>
                                     </div>
@@ -76,7 +78,7 @@
                                         <li class=""><a href="#second5"><i class="fa fa-apple"></i> &nbsp;iOS</a></li>
                                         <li class=""><a href="#third5"><i class="fa fa-windows"></i> &nbsp;Windows</a></li>
                                     </ul>
-                                    <div class="card-body tab-content style-default-bright">
+                                    <div class="card-body tab-content style-default-bright" id="android-tab" data-project-id="@Model.Id">
                                         <div class="tab-pane active" id="first5">
                                             <p>
                                                 <button type="button" class="btn ink-reaction btn-raised btn-primary" id="btnBuildAndroid">
@@ -85,6 +87,9 @@
                                                     </label>
                                                 </button>
                                             </p>
+                                            <div class="alert alert-success" role="alert" id="alertAndroidProjectCreated" style="display:none;">
+                                                Project has been saved.
+                                            </div>
                                             <div class="alert alert-success" role="alert" id="alertSucessAndroid" style="display:none;">
                                                 Andoid build started, please refresh the table below in a few minutes to get the output.
                                             </div>
@@ -195,13 +200,15 @@
 
             $.ajax({
                 url: '@Url.Action("BuildLog", "Project")',
-                data: JSON.stringify({ projectId: '1', buildType: buildType }), //{ address: address, instructions: instructions},
+                data: JSON.stringify({ projectId: $("#android-tab").data("project-id"), buildType: buildType }), //{ address: address, instructions: instructions},
                 contentType: 'application/json',
                 method: 'POST',
                 dataType: 'HTML',
                 success: function (result) {
                     var sssdf = result;
                     $("#divAndroidBuildLog").html(result);
+                    $("#alertAndroidProjectCreated").slideUp();
+                    $("#alertSucessAndroid").slideUp();
                 },
                 error: function (xhr, error, errorThrown) {
                     $("#divAndroidBuildLog").html(xhr.responseText);
@@ -210,7 +217,9 @@
         }
 
         function Build() {
+            $("#btnBuildAndroid").addClass("disabled");
             var dataParameters = {
+                Id: $("#android-tab").data("project-id"),
                 Name: $("#txtProjectName").val(),
                 GitUrl: $("#txtGitRepository").val(),
                 GitUsername: $("#txtGitUsername").val(),
@@ -224,9 +233,16 @@
                 success: function (result) {
                     var sssdf = result;
                     $("#alertSucessAndroid").slideDown();
+                    $("#android-tab").data("project-id", result.projectId);
+                    if (result.isNew) {
+                        $("#project-title").html($("#txtProjectName").val());
+                        $("#alertAndroidProjectCreated").slideDown();
+                    }
+                    $("#btnBuildAndroid").removeClass("disabled");
                 },
                 error: function (xhr, error, errorThrown) {
                     var esd = error;
+                    $("#btnBuildAndroid").removeClass("disabled");
                 }
             });
         }

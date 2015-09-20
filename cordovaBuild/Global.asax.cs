@@ -1,4 +1,6 @@
-﻿using System;
+﻿using cordovaBuild.CustomBinder;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +18,7 @@ namespace cordovaBuild
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ModelBinders.Binders.Add(typeof(ObjectId), new ObjectIdModelBinder());
         }
     }
 }

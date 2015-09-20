@@ -18,5 +18,6 @@ namespace cordovaBuild.Data.Model
         public string Status { get; set; }
         public int BuildTimeSec { get; set; }
         public DateTime BuildDateTime { get; set; }
+        public DateTime lastModified { get; set; }
     }
 }
