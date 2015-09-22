@@ -27,6 +27,7 @@ namespace cordovaBuild.Controllers
 
                 feedbackRepo.Create(new Feedback
                 {
+                    Name = feedback.Name,
                     Message = feedback.Message,
                     Email = feedback.Email,
                     DatePosted = DateTime.UtcNow

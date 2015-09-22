@@ -47,6 +47,16 @@ namespace cordovaBuild.Controllers
             return View(projects);
         }
 
+        [Authorize]
+        public ActionResult Download(string projectId, string filename, string buildType)
+        {
+            var baseOutputDirectory = ConfigurationManager.AppSettings["OutputDirectory"].ToString();
+            var location = string.Format(@"{0}\{1}\{2}\{3}\{4}", baseOutputDirectory, User.Identity.Name, projectId, buildType, filename);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(location);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
+        }
+
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> BuildLog(string projectId, string buildType)
@@ -130,7 +140,13 @@ namespace cordovaBuild.Controllers
 
                     ExecuteCommand(cordovaAddPlatformCommand, projectFolder, outputDirectory, build.BuildFileLog);
 
-                    var cordovaBuildCommand = string.Format("cordova build {0}", buildType);                     
+                    var cordovaBuildCommand = string.Format("cordova build {0}", buildType);
+
+                    Task.Run(async () =>
+                    {
+                        var timeDifference = DateTime.Now - startDateTime;
+                        buildRepo.UpdateStatus("Building project", build.Id.ToString(), (int)timeDifference.TotalSeconds);
+                    });
 
                     ExecuteCommand(cordovaBuildCommand, projectFolder, outputDirectory, build.BuildFileLog);
 

@@ -13,10 +13,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) { 
+        @foreach (var item in Model.OrderByDescending(n => n.BuildDateTime).Take(5)) { 
             <tr>
-                <td>@item.OutputZipFile</td>
-                <td>@item.BuildFileLog</td>
+                <td>@if (item.Status == "Completed") {
+                        @Html.ActionLink(item.OutputZipFile, "Download", "Project", new { projectId = item.ProjectId, filename = item.OutputZipFile, buildType = item.BuildType }, null )
+                    }
+                </td>
+                <td>@if (item.Status == "Completed") {
+                        @Html.ActionLink(item.OutputZipFile, "Download", "Project", new { projectId = item.ProjectId, filename = item.BuildFileLog, buildType = item.BuildType }, null)
+                    }
+                </td>
                 <td>@item.Status</td>
                 <td>@item.BuildDateTime</td>
             </tr>

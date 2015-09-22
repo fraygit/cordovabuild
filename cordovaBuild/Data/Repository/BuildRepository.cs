@@ -25,6 +25,18 @@ namespace cordovaBuild.Data.Repository
             return true;
         }
 
+        public async Task<Build> GetById(string buildId)
+        {
+            var builder = Builders<Build>.Filter;
+            var filter = builder.Eq("_id", ObjectId.Parse(buildId));
+            var builds = await this.ConnectionHandler.MongoCollection.Find(filter).ToListAsync();
+            if (builds != null)
+            {
+                return builds.FirstOrDefault();
+            }
+            return new Build();
+        }
+
         public async Task<List<Build>> GetByProject(string projectId)
         {
             var builder = Builders<Build>.Filter;
